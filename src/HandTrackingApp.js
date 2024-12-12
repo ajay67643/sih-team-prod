@@ -1,6 +1,106 @@
 
 
 
+// import React, { useEffect, useRef, useState } from 'react';
+// import { Hands } from '@mediapipe/hands';
+// import { Camera } from '@mediapipe/camera_utils';
+// import './HomePage.css';
+
+// const HandTrackingApp = () => {
+//   const videoRef = useRef(null);
+//   const [landmarks, setLandmarks] = useState([]);
+//   const [predictionsArray, setPredictionsArray] = useState([]);
+//   const [sequenceDetected, setSequenceDetected] = useState(null);
+//   const [lastPlayedSound, setLastPlayedSound] = useState(null); // Track last played sound
+
+//   useEffect(() => {
+//     const hands = new Hands({
+//       locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+//     });
+
+//     hands.setOptions({
+//       maxNumHands: 2,
+//       modelComplexity: 1,
+//       minDetectionConfidence: 0.7,
+//       minTrackingConfidence: 0.5,
+//     });
+
+//     hands.onResults((results) => {
+//       const leftHand = [];
+//       const rightHand = [];
+//       let x_ = [];
+//       let y_ = [];
+
+//       if (results.multiHandLandmarks) {
+//         results.multiHandLandmarks.forEach((handLandmarks, handIdx) => {
+//           handLandmarks.forEach((landmark) => {
+//             x_.push(landmark.x);
+//             y_.push(landmark.y);
+//           });
+
+//           const landmarksNormalized = [];
+//           handLandmarks.forEach((landmark) => {
+//             const normalizedX = landmark.x - Math.min(...x_);
+//             const normalizedY = landmark.y - Math.min(...y_);
+//             landmarksNormalized.push(normalizedX, normalizedY);
+//           });
+
+//           const handLabel = results.multiHandedness[handIdx].label;
+//           if (handLabel === 'Left') leftHand.push(...landmarksNormalized);
+//           else rightHand.push(...landmarksNormalized);
+//         });
+//       }
+
+//       if (leftHand.length === 0) leftHand.push(...Array(42).fill(0));
+//       if (rightHand.length === 0) rightHand.push(...Array(42).fill(0));
+
+//       const dataAux = [...leftHand, ...rightHand];
+//       setLandmarks(dataAux);
+//       sendLandmarksToAPI(dataAux);
+//     });
+
+//     const camera = new Camera(videoRef.current, {
+//       onFrame: async () => {
+//         if (videoRef.current) await hands.send({ image: videoRef.current });
+//       },
+//       width: 640,
+//       height: 480,
+//     });
+
+//     camera.start();
+
+//     return () => {
+//       hands.close();
+//       camera.stop();
+//     };
+//   }, []);
+
+//   const sendLandmarksToAPI = async (landmarks) => {
+//     try {
+//       const response = await fetch('https://ajat5825-prod-api.hf.space/predict', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ landmarks }),
+//       });
+
+//       const result = await response.json();
+//       if (result && result.predicted_character && result.confidence >= 0.6) {
+//         updatePredictionsArray(result.predicted_character);
+//       }
+//     } catch (error) {
+//       console.error('Error posting landmarks:', error);
+//     }
+//   };
+
+//   const updatePredictionsArray = (character) => {
+//     setPredictionsArray((prev) => {
+//       const newPredictions = [...prev, character].slice(-12);
+//       checkForSequence(newPredictions);
+//       return newPredictions;
+//     });
+//   };
+
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Hands } from '@mediapipe/hands';
 import { Camera } from '@mediapipe/camera_utils';
@@ -82,6 +182,12 @@ const HandTrackingApp = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ landmarks }),
       });
+
+      // Handle potential CORS issues (replace with specific error handling if needed)
+      if (!response.ok) {
+        console.error('Error fetching data:', response.statusText);
+        return;
+      }
 
       const result = await response.json();
       if (result && result.predicted_character && result.confidence >= 0.6) {
