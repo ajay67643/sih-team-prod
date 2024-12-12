@@ -113,7 +113,7 @@ const HandTrackingApp = () => {
       big: 'Audio/big.mp3',
       yes: 'Audio/yes.mp3',
       no: 'Audio/no.mp3',
-      sad: 'Audio/sad.mp3
+      sad: 'Audio/sad.mp3'
     };
 
     const soundFile = soundMap[name];
