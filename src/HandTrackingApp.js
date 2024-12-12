@@ -108,6 +108,12 @@ const HandTrackingApp = () => {
       love: 'Audio/love.mp3',
       varanasi: 'Audio/varanasi.mp3',
       you: 'Audio/you.mp3',
+      happy: 'Audio/happy.mp3',
+      bad: 'Audio/bad.mp3',
+      big: 'Audio/big.mp3',
+      yes: 'Audio/yes.mp3',
+      no: 'Audio/no.mp3',
+      sad: 'Audio/sad.mp3
     };
 
     const soundFile = soundMap[name];
@@ -120,45 +126,59 @@ const HandTrackingApp = () => {
   };
 
   const checkForSequence = (predictions) => {
-    const sequence12 = ['hate-1', 'hate-2'];
-    const sequence3 = ['varanasi-1', 'varanasi-2'];
-    const sequence01 = ['green-1','green-2'];
-    const sequence02 = ['love-1','love-2'];
-    const sequence03 = ['you-1','you-2'];
-    const sequence04 = ['i-1','i-2'];
+    
+    const sequence001 = ['#HP001','#HP002'];
+    const sequence002 = ['#BD003','BD004'];
+    const sequence003 = ['#BG005','#BG006'];
+    const sequence004 = ['#Y007','#Y008'];
+    const sequence005 = ['#N009','#N010'];
+    const sequence006 = ['#HP002','#HP001'];
+    const sequence007 = ['#HP002','#N010'];
+    const sequence008 = ['#N010','#HP002'];
+    
 
 
 
-    if (predictions.join('').includes(sequence12.join(''))) {
-      if (sequenceDetected !== 'Sequence of 12 detected: Hate') {
-        setSequenceDetected('Sequence of 12 detected: Hate');
-        playSound('hate');
-        console.log('hate');
+    if (predictions.join('').includes(sequence001.join('happy'))) {
+      if (sequenceDetected !== 'Sequence of 12 detected: happy') {
+        setSequenceDetected('Sequence of 12 detected: happy');
+        playSound('happy');
+        console.log('happy');
       }
-    } else if (predictions.slice(-3).join('') === sequence3.join('')) {
-      if (sequenceDetected !== 'Sequence of 3 detected: varanasi') {
-        setSequenceDetected('Sequence of 3 detected: varanasi');
-        playSound('varanasi');
+    } else if (predictions.slice(-3).join('') === sequence002.join('bad')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: bad') {
+        setSequenceDetected('Sequence of 3 detected: bad');
+        playSound('bad');
       }
-    }else if (predictions.slice(-3).join('') === sequence01.join('')) {
-      if (sequenceDetected !== 'Sequence of 3 detected: green') {
-        setSequenceDetected('Sequence of 3 detected: green');
-        playSound('green');
+    }else if (predictions.slice(-3).join('') === sequence003.join('big')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: big') {
+        setSequenceDetected('Sequence of 3 detected: big');
+        playSound('big');
       }
-    }else if (predictions.slice(-3).join('') === sequence02.join('')) {
-      if (sequenceDetected !== 'Sequence of 3 detected: love') {
-        setSequenceDetected('Sequence of 3 detected: love');
-        playSound('love');
+    }else if (predictions.slice(-3).join('') === sequence004.join('yes')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: yes') {
+        setSequenceDetected('Sequence of 3 detected: yes');
+        playSound('yes');
       }
-    }else if (predictions.slice(-3).join('') === sequence03.join('')) {
-      if (sequenceDetected !== 'Sequence of 3 detected: you') {
-        setSequenceDetected('Sequence of 3 detected: you');
-        playSound('you');
+    }else if (predictions.slice(-3).join('') === sequence005.join('no')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: no') {
+        setSequenceDetected('Sequence of 3 detected: no');
+        playSound('no');
       }
-    } else if (predictions.slice(-3).join('') === sequence04.join('')) {
-      if (sequenceDetected !== 'Sequence of 3 detected: i') {
-        setSequenceDetected('Sequence of 3 detected: i');
-        playSound('i');
+    } else if (predictions.slice(-3).join('') === sequence006.join('sad')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: sad') {
+        setSequenceDetected('Sequence of 3 detected: sad');
+        playSound('sad');
+      }
+    }else if (predictions.slice(-3).join('') === sequence007.join('no')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: no') {
+        setSequenceDetected('Sequence of 3 detected: no');
+        playSound('no');
+      }
+    }else if (predictions.slice(-3).join('') === sequence008.join('no')) {
+      if (sequenceDetected !== 'Sequence of 3 detected: no') {
+        setSequenceDetected('Sequence of 3 detected: no');
+        playSound('no');
       }
     }else {
       setSequenceDetected(null);
